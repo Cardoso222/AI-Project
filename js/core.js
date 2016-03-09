@@ -151,7 +151,7 @@ $(document).ready(function(){
 	}
 
 	// restart from here
-function decisionMaker(player1, player2){
+    function decisionMaker(player1, player2){
 		var possibility = getCallSuccessPossibilities(player2.points);
 			// fix here
 			if(possibility < 1){
@@ -186,7 +186,7 @@ function decisionMaker(player1, player2){
 	showPlayer1Cards(player1);
 	showPlayer2Cards(player2);
 
-	$('#button').click(function(){
+	$('#deck').click(function(){
 		callDeck(player1);
 		showPlayer1Cards(player1);
 		checkStatusofGame(player1, player2);
