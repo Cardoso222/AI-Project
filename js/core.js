@@ -123,18 +123,22 @@ $(document).ready(function(){
 	//Check win or lose 
 	function checkStatusofGame(player1, player2){
 
-		if(player1.points == 21){
-			alert('Player 1 Venceu');
-		}
-		if(player2.points == 21){
-			alert('Player 2 Venceu');
-		}
-		if(player1.points > 21){
-			alert('Player 1 Estourou');
-		}
-		if(player2.points > 21){
-			alert('Player 2 Estourou');
-		}
+        if(player1.points == 21){
+            alert('Player 1 Venceu');
+            location.reload();
+        }
+        if(player2.points == 21){
+            alert('Player 2 Venceu');
+            location.reload();
+        }
+        if(player1.points > 21){
+            alert('Player 1 Estourou');
+            location.reload();
+        }
+        if(player2.points > 21){
+            alert('Player 2 Estourou');
+            location.reload();
+        }
 	}
 
 	var turn = 0;
@@ -146,7 +150,8 @@ $(document).ready(function(){
 		}else{
 			console.log('Vez do Player 2');
 			$('#button').css("display","none");
-			turn--;
+			decisionMaker(player1, player2);
+            turn--;
 		}
 	}
 
@@ -154,8 +159,8 @@ $(document).ready(function(){
     function decisionMaker(player1, player2){
 		var possibility = getCallSuccessPossibilities(player2.points);
 			// fix here
-			if(possibility < 1){
-				console.log(possibility);
+			console.log(possibility.toFixed(3)) ;
+			if(possibility > 0.05){
 				callDeck(player2);
 				showPlayer2Cards(player2);
 				checkStatusofGame(player1, player2);
@@ -171,30 +176,35 @@ $(document).ready(function(){
 		];
 		return profiles[n];	
 	}
-	
+    
     // initiate the game and the cards of players
-	var player1 = [];
-	callDeck(player1);
-	callDeck(player1);
+    var player1 = [];
+    callDeck(player1);
+    callDeck(player1);
 
-	var player2 = [];
-	player2.profile = setProfile(1);
-	callDeck(player2);
-	callDeck(player2);
+    var player2 = [];
+    player2.profile = setProfile(1);
+    callDeck(player2);
+    callDeck(player2);
 
-	// Show Cards 
-	showPlayer1Cards(player1);
-	showPlayer2Cards(player2);
+    // Show Cards 
+    showPlayer1Cards(player1);
+    showPlayer2Cards(player2);
+    handle();
+   
+    $('#stop').click(function(){
+        handle();        
+    });
 
-	$('#deck').click(function(){
-		callDeck(player1);
-		showPlayer1Cards(player1);
-		checkStatusofGame(player1, player2);
-		handle();
-	});
+    $('#deck').click(function(){
+        callDeck(player1);
+        showPlayer1Cards(player1);
+        checkStatusofGame(player1, player2);
+        handle();
+    });
 
-	decisionMaker(player1,player2);
-	console.table(player2);
+	//decisionMaker(player1,player2);
+	//console.table(player2);
 
 
 });
