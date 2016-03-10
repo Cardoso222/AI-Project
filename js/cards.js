@@ -6,13 +6,9 @@ var cards = [
 	{"id":3,"name":"Ás","type":"Ouro","image":"images/ace_of_diamonds.png","value":1},
 	{"id":4,"name":"Ás","type":"Paus","image":"images/ace_of_clubs.png","value":1},
 
-	//value = 2
-	{"id":5,"name":"Duque","type":"Espadas","image":"images/2_of_spades.png","value":2},
-	{"id":6,"name":"Duque","type":"Copas","image":"images/2_of_hearts.png","value":2},
-	{"id":7,"name":"Duque","type":"Ouro","image":"images/2_of_diamonds.png","value":2},
-	{"id":8,"name":"Duque","type":"Paus","image":"images/2_of_clubs.png","value":2},
-
-	//value = 3
+    
+    
+    //value = 3
 	{"id":9,"name":"Tres","type":"Espadas","image":"images/3_of_spades.png","value":3},
 	{"id":10,"name":"Tres","type":"Copas","image":"images/3_of_hearts.png","value":3},
 	{"id":11,"name":"Tres","type":"Ouro","image":"images/3_of_diamonds.png","value":3},
@@ -29,6 +25,13 @@ var cards = [
 	{"id":18,"name":"Cinco","type":"Copas","image":"images/5_of_hearts.png","value":5},
 	{"id":19,"name":"Cinco","type":"Ouro","image":"images/5_of_diamonds.png","value":5},
 	{"id":20,"name":"Cinco","type":"Paus","image":"images/5_of_clubs.png","value":5},
+
+	//value = 2
+	{"id":5,"name":"Duque","type":"Espadas","image":"images/2_of_spades.png","value":2},
+	{"id":6,"name":"Duque","type":"Copas","image":"images/2_of_hearts.png","value":2},
+	{"id":7,"name":"Duque","type":"Ouro","image":"images/2_of_diamonds.png","value":2},
+	{"id":8,"name":"Duque","type":"Paus","image":"images/2_of_clubs.png","value":2},
+
 
 	//Value = 6
 	{"id":21,"name":"Seis","type":"Espadas","image":"images/6_of_spades.png","value":6},

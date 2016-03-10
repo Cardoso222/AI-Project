@@ -24,7 +24,7 @@ $(document).ready(function(){
 
 		for (var i = 0; i < cards.length; i++) {
 			card = cards[randomInt(0,52)];
-			if(inArray(card, deck) == false & card != ''){ 
+			if(inArray(card, deck) == false & card != ''){
 				deck[i] = card;
 			}
 		};
@@ -45,7 +45,7 @@ $(document).ready(function(){
 			if(cards[i] === card) {
 				cards.splice(i,1);
 				return false;
-			}	
+			}
 		}
 	}
 
@@ -56,38 +56,22 @@ $(document).ready(function(){
 		return card;
 	}
 
-	//Check the possibilty of success from call on deck
+	//Check the possibilty of success dont explode calling on deck
 	function getCallSuccessPossibilities(value){
 		var counter = 0;
 		var allCombinations = 0;
 		var probability = 0;
-		var all = 0;	 
 		var base =  21 - value;
 
-	if(base > 10) {
-
 		for (var i = 0; i < cards.length; i++) {
-			for (var j = 0; j < cards.length; j++) {
-				all = all + 1;
-				if(cards[i].value + cards[j].value === base) {
-					counter++;
-					allCombinations++;
-					probability = allCombinations/all; 
-					console.log(cards[i].name + ' ' + cards[i].type + ' ' + cards[i].value + ' ' + 
-					'Segunda Carta' + cards[j].name + ' ' + cards[j].type + ' ' + cards[j].value);
-				}			
-			}	
-		}	
-	}
-	else{
-		for (var i = 0; i < cards.length; i++) {
-			if(cards[i].value == base){
-				counter++;
-				console.log(cards[i].name + ' ' + cards[i].type + ' ' + cards[i].value);
+			if(cards[i].value <= base){
+                counter++;
+				//console.log(cards[i].name + ' ' + cards[i].type + ' ' + cards[i].value);
 			}
-		}
-		probability = counter/cards.length;
-	}
+        }
+		console.log(counter);
+		console.log(cards.length);
+        probability = parseFloat(counter/cards.length);
 	return probability;
 }
 
@@ -107,7 +91,7 @@ $(document).ready(function(){
 			player.points = totalValue;
 		};
 			console.log("Total de Pontos:"+	 totalValue);
-	}	
+	}
 
 	function showPlayer2Cards(player){
 		var totalValue = 0;
@@ -118,10 +102,16 @@ $(document).ready(function(){
 			player.points = totalValue;
 		};
 			console.log("Total de Pontos:"+	 totalValue);
-	}	
-	
-	//Check win or lose 
-	function checkStatusofGame(player1, player2){
+	}
+
+	//Check win or lose
+	function checkStatusofGame(player1, player2, param){
+
+        if(param == 1){
+            if(player1.points < 21 &  player1.points > player2.points)
+            alert('Player 1 Venceu');
+            location.reload();
+        }
 
         if(player1.points == 21){
             alert('Player 1 Venceu');
@@ -158,27 +148,76 @@ $(document).ready(function(){
 	// restart from here
     function decisionMaker(player1, player2){
 		var possibility = getCallSuccessPossibilities(player2.points);
-			// fix here
 			console.log(possibility.toFixed(3)) ;
-			if(possibility > 0.05){
-				callDeck(player2);
+			//Define some profiles
+            if(possibility > 0.50){
+                callDeck(player2);
 				showPlayer2Cards(player2);
 				checkStatusofGame(player1, player2);
-				//handle();	
-			}
+                console.log(breathFirst(player2.points));
+                console.log(blindSearch(player2.points));
+				handle();
+			    return true;
+            }
+            else{
+                $('#IA').append('Parei!');
+                return false;
+            }
 	}
- 	// finish this 	
+ 	// finish this
 	function setProfile(n){
 		var profiles = [
 		{"id":"1","name":"agressive"},
 		{"id":"2","name":"normal"},
 		{"id":"3","name":"passive"},
 		];
-		return profiles[n];	
+		return profiles[n];
 	}
-    
+
+    function breathFirst(value){
+       	var nodes = 0;
+		var base =  21 - value;
+        cardsSorted = cards;
+        cardsSorted = cardsSorted.sort(byVal);//sort cards
+        if(base > 10){
+            base = 10;
+        }
+        for (var i = 0; i < cards.length; i++) {
+			nodes++;
+            if(cardsSorted[i].value >= base){
+                console.table(cardsSorted[i]);
+                break;
+            }
+        }
+        console.log('BreathFirst:');
+		console.log('A quantidade de nós até o primeiro melhor  valor acessivel :' + nodes);
+	return nodes;
+  }
+
+   function blindSearch(value){
+       	var nodes = 0;
+		var base =  21 - value;
+            //cards = cards.sort(byId);
+		for (var i = 0; i < cards.length; i++) {
+            nodes++;
+			console.log(nodes);
+            if(cards[i].value <= base){
+                console.table(cards[i]);
+                break;
+            }
+        }
+        console.log('BUSCA CEGA');
+		console.log('A quantidade de nós até o primeiro valor acessivel :' + nodes);
+	return nodes;
+  }
+
+  function byVal(cardA, cardB) {
+          return cardA.value > cardB.value;
+  }
+
     // initiate the game and the cards of players
     var player1 = [];
+    
     callDeck(player1);
     callDeck(player1);
 
@@ -187,13 +226,13 @@ $(document).ready(function(){
     callDeck(player2);
     callDeck(player2);
 
-    // Show Cards 
+    // Show Cards
     showPlayer1Cards(player1);
     showPlayer2Cards(player2);
     handle();
-   
+
     $('#stop').click(function(){
-        handle();        
+        checkStatusofGame(player1, player2, 1);
     });
 
     $('#deck').click(function(){
@@ -203,8 +242,10 @@ $(document).ready(function(){
         handle();
     });
 
-	//decisionMaker(player1,player2);
+    //decisionMaker(player1,player2);
 	//console.table(player2);
 
+   console.log(breathFirst(player2.points));
+   console.log(blindSearch(player2.points));
 
 });
